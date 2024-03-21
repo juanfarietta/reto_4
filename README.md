@@ -94,6 +94,33 @@ class Sauces(MenuItem):
     def set_type(self, type):
         self.type = type
 
+class Payment:
+    def __init__(self):
+        pass
+
+    def pay(self, amount):
+        raise NotImplementedError("Subclasses must implement pay()")
+
+class CardPayment(Payment):
+    def __init__(self, number, cvv):
+        super().__init__()
+        self.number = number
+        self.cvv = cvv
+
+    def pay(self, amount):
+        print(f"Paying {amount} with card ending in {self.number[-4:]}")
+
+class CashPayment(Payment):
+    def __init__(self, amount_given):
+        super().__init__()
+        self.amount_given = amount_given
+
+    def pay(self, amount):
+        if self.amount_given >= amount:
+            print(f"Payment successful in cash. Change: {self.amount_given - amount}")
+        else:
+            print(f"Insufficient funds. Missing {amount - self.amount_given} to complete the payment.")
+
 class Order:
     def __init__(self):
         self.items = []
